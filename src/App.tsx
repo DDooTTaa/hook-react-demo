@@ -1,9 +1,5 @@
 import React, { useState } from 'react';
 
-const useInput = () => {
-  
-}
-
 
 //function App() {
   const App = () => {
