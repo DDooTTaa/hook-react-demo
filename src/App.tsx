@@ -1,38 +1,36 @@
 import React, { useState } from 'react';
 
-const useInput = (initial: string, validator:Function) => {
-  const [value, setValue] = useState(initial);
-  const onChange = (event :React.ChangeEvent<HTMLInputElement>) => {
-    console.log(typeof event)
-    const { 
-      target: { value }
-    } = event;
-    let willUpdate:boolean = true;
-    
-    willUpdate = validator(value);
-    
-    if (willUpdate){
-      setValue(value);
-      console.log(value);
-    }
-  };
-  return { value, onChange };
-};
+const content= [
+  {
+    tab: "Section 1",
+    content: "I'm the content of the Section 1"
+  },
+  {
+    tab: "Section 2",
+    content: "I'm the content of the Section 2"
+  }
+]
 
+const useTabs = (initialTab:number, allTabs:Array<any>) => {
+  const [currentIndex, setCurrentIndex] = useState(initialTab);
+  return {
+    currentItem : allTabs[currentIndex],
+    changeItem: setCurrentIndex
+  };
+};
 
 //function App() {
 const App = () => {
-  const maxLen = (value:string) => value.includes("@");
-  const name = useInput("Mr.", maxLen);
-  //  const [item, setItem] = useState(3);
+  const {currentItem, changeItem} = useTabs(0, content);
   return (
     <div>
-      {/* HI {item} 
-       <button onClick={() => setItem(item + 1)}>Increment</button>
-      <button onClick={() => setItem(item - 1)}>Decreament</button>
-      <br />
-       */}
-      <input placeholder="Name" {...name} {...onchange} />
+      {content.map((section,index) => (
+      <button key={index} onClick={() => changeItem(index)}>{section.tab}</button>)
+      )}
+      
+      <div>
+      {currentItem.content}
+      </div>
     </div>
   );
 }
