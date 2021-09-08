@@ -1,36 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
-const content= [
-  {
-    tab: "Section 1",
-    content: "I'm the content of the Section 1"
-  },
-  {
-    tab: "Section 2",
-    content: "I'm the content of the Section 2"
-  }
-]
 
-const useTabs = (initialTab:number, allTabs:Array<any>) => {
-  const [currentIndex, setCurrentIndex] = useState(initialTab);
-  return {
-    currentItem : allTabs[currentIndex],
-    changeItem: setCurrentIndex
+const useTitle = (initialTitle:string) => {
+  const [title, setTitle] = useState(initialTitle);
+  const updateTitle = () => {
+    const htmlTitle:HTMLTitleElement | null = document.querySelector("title");
+    if (!htmlTitle) return;
+    htmlTitle.innerText = title;
   };
-};
+  useEffect(updateTitle, [title]);
+  return setTitle;
+}
 
 //function App() {
 const App = () => {
-  const {currentItem, changeItem} = useTabs(0, content);
+  const potato:any = useRef();
+  if (potato.current !== null) { return null; }
+  setTimeout(() => (potato.current.focus()), 3000);
   return (
     <div>
-      {content.map((section,index) => (
-      <button key={index} onClick={() => changeItem(index)}>{section.tab}</button>)
-      )}
-      
-      <div>
-      {currentItem.content}
-      </div>
+    <div>HI</div>
+    <input ref={potato} placeholder="blabla"/>
     </div>
   );
 }
